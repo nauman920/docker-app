@@ -26,7 +26,7 @@ jobs:
           context: ./
           push: true
           dockerfile: ./Dockerfile
-          tags: nauman920/react-app:1.1
+          tags: nauman920/docker-app
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -44,11 +44,11 @@ jobs:
         chmod 600 docker.pem
     - name: Pull Docker image
       run: |
-        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker pull nauman920/react-app:1.1'
+        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker pull nauman920/docker-app'
     - name: Stop running container
       run: |
-        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker stop react-app || true'
-        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com rm react-app || true'
+        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker stop docker-app || true'
+        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com rm docker-app || true'
     - name: Run new container
       run: |
-        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker run -d --name react-app -p 80:3000 nauman920/react-app:1.1'
+        ssh -i "docker.pem" ubuntu@ec2-16-171-11-179.eu-north-1.compute.amazonaws.com 'sudo docker run -d --name docker-app -p 80:3000 nauman920/docker-app'

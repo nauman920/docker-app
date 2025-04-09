@@ -2,8 +2,8 @@ version: '3'
 
 services:
   app:
-    image: nauman920/react-app:1.1
-    container_name: react-app
+    image: nauman920/docker-app:1.1
+    container_name: docker-app
     restart: always
     ports:
       - "80:3000"
