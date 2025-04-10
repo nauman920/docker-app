@@ -1,13 +1,12 @@
-name: Build on DockerHub and Deploy to AWS
+name: CICD
+
 on:
   push:
     branches:
       - master
- 
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source
@@ -15,18 +14,17 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t nauman920/docker-app .
+        run: docker build -t nauman920/react-app .
       - name: Publish image to docker hub
-        run: docker push nauman920/docker-app:latest   
+        run: docker push nauman920/react-app:latest   
 
-deploy:
+  deploy: 
     needs: build
-    runs-on: ubuntu-latest    
+    runs-on: nauman-ec2    
     steps:
       - name: Pull image from docker hub
-        run: docker pull nauman920/docker-app:latest 
+        run: docker pull nauman920/react-app:latest 
       - name: Delete Old Container
-        run: docker rm -f dockerContainer
+        run: docker rm -f reactContainer
       - name: Run docker container
-        run: docker run -d -p 3000:80 --name dockerContainer nauman920/docker-app
-      
+        run: docker run -d -p 3000:80 --name reactContainer nauman920/react-app   
