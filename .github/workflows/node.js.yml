@@ -22,14 +22,14 @@ jobs:
       - name: Publish image to docker hub
         run: docker push nauman920/docker-app:latest   
 
-deploy: 
+deploy:
     needs: build
-    runs-on: aws-ec2    
+    runs-on: ubuntu-latest    
     steps:
       - name: Pull image from docker hub
         run: docker pull nauman920/docker-app:latest 
       - name: Delete Old Container
         run: docker rm -f dockerContainer
       - name: Run docker container
-        run: docker run -d -p 3000:80 --name dockerContainer nauman920/docker-app   
-  
+        run: docker run -d -p 3000:80 --name dockerContainer nauman920/docker-app
+      
